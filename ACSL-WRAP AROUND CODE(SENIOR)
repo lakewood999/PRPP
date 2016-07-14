@@ -1,0 +1,174 @@
+#ACSL - WRAP AROUND CODE/SENIOR DIVISION CONTEST #1
+y = 1
+#Conversion dictionaries
+letters = {'A':1, 'B':2, 'C':3, 'D':4, 'E':5, 'F':6,'G':7,'H':8,'I':9,'J':10,'K':11,'L':12,'M':13,'N':14,'O':15,'P':16,'Q':17,'R':18,'S':19,'T':20,'U':21,'V':22,'W':23,'X':24,'Y':25,'Z':26}
+numbers = {1:'A',2:'B',3:'C',4:'D',5:'E',6:'F',7:'G',8:'H',9:'I',10:'J',11:'K',12:'L',13:'M',14:'N',15:'O',16:'P',17:'Q',18:'R',19:'S',20:'T',21:'U',22:'V',23:'W',24:'X',25:'Y',26:'Z'}
+
+#Square root function
+def sqrt(x):
+	x = x**0.5
+	return x
+
+#Calculates the output number
+def calcout(prenumber, direction, last):
+	direction = lr
+	#print("last",last)
+	if direction == "left":
+		outnumber = prenumber - last
+	else:
+		outnumber = prenumber + last
+		
+		#print("\nlast",last)
+		#print("prenumber", prenumber)
+		#print("\noutnumber",str(outnumber)+"\n")
+	if outnumber < 0:
+		outnumber = (outnumber%26)
+	#IMPORTANT: if outnumber > 26:
+	if outnumber >= 26:
+		outnumber = (outnumber%26)+1
+	else:
+		outnumber = outnumber+1
+	#print("returned outnumber",outnumber)
+	return outnumber
+
+#Factors for rule 5
+def factor(x):
+	times = x
+	rounds = 0
+	factorsum = 0
+	while rounds < x:
+		if x%(rounds+1) == 0:
+			factorsum += rounds+1
+		rounds += 1
+	return factorsum
+
+#Rule 1
+def rule1(inletter):
+	global y
+	innumber = letters[inletter]
+	outnumber = calcout(innumber*2, lr, before)
+	y = innumber*2
+	outletter = numbers[outnumber]
+	return outletter
+	
+#Rule 2
+def rule2(inletter):
+	global y
+	innumber = letters[inletter]
+	outnumber = calcout(((innumber%3)*5), lr, before)
+	y = (innumber%3)*5
+	outletter = numbers[outnumber]
+	return outletter
+
+#Rule 3	
+def rule3(inletter):
+	global y
+	innumber = letters[inletter]
+	outnumber = calcout((((innumber//4)*-8)), lr, before)
+	y = (innumber//4)*-8
+	outletter = numbers[outnumber]
+	return outletter
+
+#Rule 4	
+def rule4(inletter):
+	global y
+	innumber = letters[inletter]
+	#print("After rule",int(innumber**0.5)*(-12))
+	outnumber = calcout(((int(innumber**0.5)*(-12))), lr, before)
+	y= int((innumber**0.5))*-12
+	outletter = numbers[outnumber]
+	return outletter
+
+#Rule 5	
+def rule5(inletter):
+	global y
+	innumber = letters[inletter]
+	outnumber = calcout((factor(innumber)*10), lr, before)
+	y = factor(innumber)
+	outletter = numbers[outnumber]
+	return outletter
+	
+#Main
+rules = {1:rule1, 2:rule2, 3:rule3, 4:rule4, 5:rule5}
+def main(prefix):
+	global before
+	y=0
+	mainout = ""
+	
+	mainstring = input(prefix)
+	maxgoarounds = (len(mainstring)-1)
+	goarounds = 2
+	
+	la = mainstring[0]
+	ra = mainstring[1]
+	
+	ra = int(ra)
+	
+	before = 0
+	prefirst = rules[ra]
+	#print(y)
+	if y < 0:
+		global lr
+		lr = "left"
+	else:
+		global lr
+		lr = "right"
+	#print("lr",lr)
+	first = prefirst(la)
+	#print(prefirst)
+	before = letters[first]-1
+	
+	mainout+=first
+	
+	while goarounds < maxgoarounds:
+		#print("mainout",mainout)
+		lx = mainstring[goarounds]
+		rx = mainstring[goarounds+1]
+		#print(lx)
+		#print(rx)
+		
+		
+		rx = int(rx)
+		
+		pre_x = rules[rx]
+		#print("pre_x",pre_x)
+		x = pre_x(lx)
+		before = letters[x]-1
+		
+		mainout += x 
+		
+		goarounds += 2
+	'''
+	#print("y",y)
+	presecond = rules[rb]
+	second = presecond(lb)
+	#print("y",y)
+	
+	
+	prethird = rules[rc]
+	third = prethird(lc)
+	#print("y",y)
+	'''
+	print("\nOutput")
+	print(prefix,mainout)
+
+print("Input")	
+random = main('1.')
+
+print("\nInput")
+random = main('2.')
+
+print("\nInput")
+random = main('3.')
+
+print("\nInput")
+random = main('4.')
+
+print("\nInput")
+random = main('5.')
+	
+	
+	
+
+
+
