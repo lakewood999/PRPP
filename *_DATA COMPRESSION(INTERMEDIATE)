@@ -1,0 +1,78 @@
+#ACSL Intermeddiate Divison 2007-2008
+#Data compression
+
+def main(string, number):
+	#Defines what punctuation is
+	punctuationlist = ('!',',','?','.')
+	#Line below added for the line reading algorithm
+	string = string+" "
+	#Pre-setting variables
+	punctuation = []
+	allpunctuation = []
+	characterlist = []
+	allcharacters = []
+	lengthofstring = len(string)
+	timesofword = []
+	timesofpunctuation = []
+	timesgonethrough = 0
+	character = ""
+	compressedstring = ""
+	while timesgonethrough < lengthofstring:
+		#if string[timesgonethrough] != " " and string[timesgonethrough] not in punctuationlist:
+		if string[timesgonethrough] != " " and string[timesgonethrough] not in punctuationlist:
+			character = character+string[timesgonethrough]
+		elif string[timesgonethrough] in punctuationlist:
+			####print("Character",string[timesgonethrough],"is in punctuation!")
+			allpunctuation.append(string[timesgonethrough])
+			if string[timesgonethrough] not in punctuation:
+				punctuation.append(string[timesgonethrough])
+		else:
+			#print("Character in else",character)
+			allcharacters.append(character)
+			if character not in characterlist:
+				characterlist.append(character)
+			character = ""
+		#Below remove "" from the lists
+		if '' in characterlist:
+			characterlist.remove('')
+		if '' in allcharacters:
+			allcharacters.remove('')
+		timesgonethrough += 1
+	for word in characterlist:
+		wordtimes = 0
+		for item in allcharacters:
+			if word == item:
+				wordtimes += 1
+		timesofword.append(wordtimes)
+	for char in punctuation:
+		punctuationtimes = 0
+		for item in allpunctuation:
+			if char == item:
+				punctuationtimes += 1
+		timesofpunctuation.append(punctuationtimes)
+	#Lengths of needed string
+	lengthofcharacterlist = len(characterlist)
+	lengthofpunctuation = len(punctuation)
+	times = 0
+	while times < lengthofcharacterlist:
+		compressedstring = compressedstring + str(timesofword[times])+characterlist[times]
+		times += 1
+	times = 0
+	while times < lengthofpunctuation:
+		compressedstring = compressedstring + str(timesofpunctuation[times])+punctuation[times]
+		times += 1
+	#####print(characterlist)
+	#####print(allcharacters)
+	#####print(punctuation)
+	#####print(allpunctuation)
+	#####print(timesofword)
+	#####print(timesofpunctuation)
+	#####print(compressedstring)
+	print(number,compressedstring)
+main(input("1."), "1.")
+main(input("2."), "2.")
+main(input("3."), "3.")
+main(input("4."), "4.")
+main(input("5."), "5.")
+
+
